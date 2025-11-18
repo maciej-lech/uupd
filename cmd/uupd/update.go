@@ -1,4 +1,4 @@
-package cmd
+package main
 
 import (
 	"fmt"
@@ -134,7 +134,7 @@ func Update(cmd *cobra.Command, args []string) {
 	}
 	if systemOutdated {
 		const OUTDATED_WARNING = "There hasn't been an update in over a month. Consider rebooting or running updates manually"
-		err := session.Notify(users, "System Warning", OUTDATED_WARNING, "critical")
+		err := session.Notify(users, "system", "System Warning", OUTDATED_WARNING, "critical")
 		if err != nil {
 			slog.Error("Failed showing warning notification")
 		}

@@ -111,10 +111,23 @@ func ListUsers() ([]User, error) {
 	return users, nil
 }
 
-func Notify(users []User, summary string, body string, urgency string) error {
+func Notify(users []User, module string, summary string, body string, urgency string) error {
 	for _, user := range users {
-		// we don't care if these exit
-		cmd := exec.Command("/usr/bin/machinectl", "shell", fmt.Sprintf("%d@", user.UID), "/usr/bin/notify-send", "--urgency", urgency, "--app-name", "uupd", summary, body)
+		args := []string{
+			"shell",
+			fmt.Sprintf("%d@", user.UID),
+			"/usr/libexec/uupd-helper",
+			"notify",
+			"--urgency", urgency,
+		}
+		if module != "" {
+			args = append(args, "--module", module)
+		}
+		args = append(args, summary)
+		if body != "" {
+			args = append(args, body)
+		}
+		cmd := exec.Command("/usr/bin/machinectl", args...)
 		_ = cmd.Run()
 	}
 	return nil

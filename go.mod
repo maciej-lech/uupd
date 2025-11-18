@@ -13,6 +13,7 @@ require (
 
 require (
 	github.com/ebitengine/purego v0.8.4 // indirect
+	github.com/esiqveland/notify v0.13.3 // indirect
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-viper/mapstructure/v2 v2.4.0 // indirect

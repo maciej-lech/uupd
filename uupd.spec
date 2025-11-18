@@ -17,7 +17,6 @@ BuildRequires:  systemd-rpm-macros
 Recommends:     bootc
 Recommends:     distrobox
 Recommends:     flatpak
-Requires:       libnotify
 Requires:       systemd
 Provides:       %{name} = %{version}
 
@@ -30,10 +29,12 @@ A simple updater for Universal Blue systems
 {{{ git_dir_setup_macro }}}
 
 %build
-go build -v -o %{name}
+go build -v -o %{name} ./cmd/uupd
+go build -v -o %{name}-helper ./cmd/uupd-helper
 
 %install
 install -Dpm 0755 %{name} %{buildroot}%{_bindir}/%{name}
+install -Dpm 0755 %{name}-helper %{buildroot}%{_libexecdir}/%{name}-helper
 install -Dpm 644 %{name}.service %{buildroot}%{_unitdir}/%{name}.service
 install -Dpm 644 %{name}.timer %{buildroot}%{_unitdir}/%{name}.timer
 install -Dpm 644 %{name}.rules %{buildroot}%{_sysconfdir}/polkit-1/rules.d/%{name}.rules
@@ -50,6 +51,7 @@ go test -v ./...
 
 %files
 %{_bindir}/%{name}
+%{_libexecdir}/%{name}-helper
 %{_unitdir}/%{name}.service
 %{_unitdir}/%{name}.timer
 %config(noreplace) %{_sysconfdir}/polkit-1/rules.d/%{name}.rules

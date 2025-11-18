@@ -8,7 +8,8 @@ default:
 	just --list
 
 build:
-	go build -o output/uupd
+	go build -o output/uupd-helper ./cmd/uupd-helper
+	go build -o output/uupd ./cmd/uupd
 
 run: build
 	sudo ./output/uupd
